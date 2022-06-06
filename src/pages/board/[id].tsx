@@ -45,18 +45,18 @@ const Board: NextPage<Props> = ({ board, cards }) => {
   return (
     <>
       <Flex align="center" justify="space-between" px={5} h={10}>
-        <Text fontWeight="bold">
-          {board.name}
-        </Text>
-        <Link href="/"><a>Go to top page</a></Link>
+        <Text fontWeight="bold">{board.name}</Text>
+        <Link href="/">
+          <a>Go to top page</a>
+        </Link>
       </Flex>
       <Box h={10} />
       <Flex align="center" justify="space-evenly" wrap="wrap" px={5} h={10} gap={10}>
-        {cards.map(card => (
-          <Box key={card.id} css={githubMarkdownCss} className="markdown-body" rounded="xl" w={96} h={96} bg={`${card.color}.50`} px={4} overflow="auto">
-            <ReactMarkdown remarkPlugins={[gfm, remarkBreaks]}>
-              {card.mdStr}
-            </ReactMarkdown>
+        {cards.map((card) => (
+          <Box key={card.id} css={githubMarkdownCss} w={96} h={96}>
+            <Box className="markdown-body" p={3} h="100%" overflow="auto" rounded="xl">
+              <ReactMarkdown remarkPlugins={[gfm, remarkBreaks]}>{card.mdStr}</ReactMarkdown>
+            </Box>
           </Box>
         ))}
       </Flex>
@@ -65,9 +65,8 @@ const Board: NextPage<Props> = ({ board, cards }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-
   const boardQuerySnap = await adminDB.collection(`public`).get();
-  const ids = boardQuerySnap.docs.map(doc => ({ params: { id: doc.id } }));
+  const ids = boardQuerySnap.docs.map((doc) => ({ params: { id: doc.id } }));
 
   return {
     paths: ids,
@@ -86,7 +85,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 
   const board = boardScheme.parse({ id, ...boardDocSnap.data() });
 
-  const cards = cardQuerySnap.docs.map(doc => cardScheme.parse({ id: doc.id, ...doc.data() }));
+  const cards = cardQuerySnap.docs.map((doc) => cardScheme.parse({ id: doc.id, ...doc.data() }));
 
   return {
     props: { board, cards },
