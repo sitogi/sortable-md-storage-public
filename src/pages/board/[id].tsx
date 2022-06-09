@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading } from '@chakra-ui/react';
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
@@ -44,8 +44,8 @@ interface Props {
 const Board: NextPage<Props> = ({ board, cards }) => {
   return (
     <>
-      <Flex align="center" justify="space-between" px={5} h={10}>
-        <Text fontWeight="bold">{board.name}</Text>
+      <Flex align="center" justify="space-between" px={5} h={20}>
+        <Heading size="lg">{board.name}</Heading>
         <Link href="/">
           <a>Go to top page</a>
         </Link>
